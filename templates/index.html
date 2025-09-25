@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exoplanet Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Exoplanet Candidate Predictor 🪐</h1>
+        <p>Enter the physical parameters of a Kepler Object of Interest (KOI) to predict its status.</p>
+
+        <form id="prediction-form">
+            <div class="form-group">
+                <label for="koi_period">Orbital Period (days)</label>
+                <input type="number" step="any" id="koi_period" placeholder="Enter Orbital Period">
+            </div>
+            <div class="form-group">
+                <label for="koi_duration">Transit Duration (hours)</label>
+                <input type="number" step="any" id="koi_duration" placeholder="Enter Transit Duration">
+            </div>
+            <div class="form-group">
+                <label for="koi_depth">Transit Depth (ppm)</label>
+                <input type="number" step="any" id="koi_depth" placeholder="Enter Transit Depth">
+            </div>
+            <div class="form-group">
+                <label for="koi_prad">Planetary Radius (Earth radii)</label>
+                <input type="number" step="any" id="koi_prad" placeholder="Enter Planetary Radius">
+            </div>
+             <div class="form-group">
+                <label for="koi_teq">Equilibrium Temperature (K)</label>
+                <input type="number" step="any" id="koi_teq" placeholder="Enter Equilibrium Temperature">
+            </div>
+            <div class="form-group">
+                <label for="koi_srad">Stellar Radius (Solar radii)</label>
+                <input type="number" step="any" id="koi_srad" placeholder="Enter Stellar Radius">
+            </div>
+            <div class="form-group">
+                <label for="koi_impact">impact</label>
+                <input type="number" step="any" id="koi_impact" placeholder="Enter impact">
+            </div>
+            <div class="form-group">
+                <label for="koi_steff">Stellar Temperature</label>
+                <input type="number" step="any" id="koi_steff" placeholder="Enter Stellar Temperature">
+            </div>
+            <a href="{{ url_for('predict') }}">
+            <button type="submit" id="predict-button">Predict Status</button></a>
+        </form>
+
+        <div id="result-container">
+            <h2>Prediction Result:</h2>
+            <div class="loader" id="loader" style="display: none;"></div>
+            <p id="result-text"></p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='index.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXOPLANET DETECTION MODEL</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
+    
+</head>
+<body>
+    <style>
+        body {
+            background-image: url("/static/img/pexels-frank-cone-140140-3607542.jpg");
+            background-position: center;
+            
+            margin: 0;
+            padding: 0;
+            font-size: 1.5rem;
+            color: rgb(243, 242, 242);
+        }
+    </style>
+    <header>
+        <h1 style=" font-size: 2rem;  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size:5rem;">EXOPLANET DETECTION</h1>
+   
+    </header>
+
+    <main>
+        <section id="welcm" class="hero">
+            <div class="container">
+                <h2> Welcome to the exoplanet detection model</h2>
+                <p>
+                   Our model is an XGBoost classifier built to distinguish between confirmed exoplanets and false positives. It uses SMOTE to balance the dataset and Randomized Search to fine-tune the model's parameters, ensuring it learns to make accurate predictions on both classes of data.
+                </p>
+
+                <button style="background-color: rgb(111, 168, 223); color: black; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; text-decoration: none; text-align: center; display: inline-block; margin-top: 10px; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; "><a href="{{ url_for('index') }}"> Let's Detect </a></button>
+            
+        </section>
+
+    </main>
+
+
+
+</body>
+</html>

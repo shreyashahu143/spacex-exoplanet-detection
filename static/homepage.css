@@ -1,0 +1,67 @@
+/* Header with animated color change */
+header h1 {
+  font-size: 6rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  border: rgb(224, 215, 215);
+  animation: colorChange 6s infinite alternate;
+  transition: color 0.5s ease;
+}
+
+/* Keyframes for multiple colors */
+
+
+/* Hero Section */
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+/* Container with text + image */
+.container {
+  text-align: center;
+  max-width: 800px;
+  background:rgba(248, 242, 242, 0.1);
+  padding: 40px;
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 1.5s ease;
+}
+
+/* Hero image styling */
+.hero-img {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Floating animation for hero image */
+
+
+/* Start Button styling */
+.start-btn {
+  padding: 12px 35px;
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff512f, #dd2476);
+  background-size: 300% 300%;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  animation: buttonGradient 6s ease infinite, pulse 2s infinite;
+}
+
+.start-btn:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
