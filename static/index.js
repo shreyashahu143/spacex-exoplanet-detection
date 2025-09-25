@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Data being sent to backend:', formData);
         // --- Step 2: Send data to the Flask API ---
         // Use the Fetch API to make a POST request.
-        fetch('https://exoplanet-detection-prototype-1-4nzr.onrender.com/predict', {
+        fetch('https://spacex-exoplanet-detection.onrender.com/predict', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json' // Tell the server we're sending JSON
