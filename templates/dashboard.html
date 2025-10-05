@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ensemble Prediction Dashboard</title>
+    <!-- Make sure the path to your dashboard.css is correct -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+</head>
+<body>
+<video autoplay muted loop id="bg-video">
+    <source src="/static/img/854278-hd_1280_720_30fps.mp4" type="video/mp4">
+  </video>
+
+    <div class="dashboard-container">
+        <header>
+            <h1>Stacked Ensemble Analysis Dashboard 🔭</h1>
+            <p>The final prediction is derived by combining the feature-based XGBoost model and the light curve-based CNN model.</p>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Left Column: Confidence Scores and Interpretation -->
+            <div class="grid-item left-column">
+                
+                <!-- Final Prediction Card -->
+                <div class="card final-prediction-card">
+                    <span class="score-label">Final Ensemble Prediction</span>
+                    <!-- ID for the final prediction text (e.g., "Exoplanet") -->
+                    <span class="final-prediction-text" id="final-prediction">--</span>
+                    <!-- ID for the final confidence score -->
+                    <span class="final-confidence-text">Confidence: <span id="final-confidence">--%</span></span>
+                </div>
+
+                <!-- Model Confidence Summary Card -->
+                <div class="card">
+                    <h2>Model Confidence Summary</h2>
+                    <div class="score-grid">
+                        <div class="score-card xgb">
+                            <span class="score-label">XGBoost Probability</span>
+                            <!-- ID for the XGBoost score -->
+                            <span class="score-value" id="xgb-score">--%</span>
+                        </div>
+                        <div class="score-card cnn">
+                            <span class="score-label">PyTorch CNN Probability</span>
+                            <!-- ID for the CNN score -->
+                            <span class="score-value" id="cnn-score">--%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Interpretation Card -->
+                <div class="card">
+                    <h2>Interpretation</h2>
+                    <!-- ID for the description text -->
+                    <p id="description-text">Analysis results will be interpreted here...</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Visualizations -->
+            <div class="grid-item right-column">
+                <div class="card chart-card">
+                    <h2>Simulated Transit Light Curve</h2>
+                    <div class="chart-container">
+                        <!-- ID for the Light Curve Chart canvas -->
+                        <canvas id="lightCurveChart"></canvas>
+                    </div>
+                </div>
+                <div class="card chart-card">
+                    <h2>Model Probability Comparison</h2>
+                     <div class="chart-container donut-container">
+                        <!-- ID for the Donut Chart canvas -->
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <!-- Corrected link using url_for -->
+            <a href="{{ url_for('index') }}" class="return-link">← Return to Input Form</a>
+        </footer>
+    </div>
+
+    <!-- Link to the dashboard-specific JavaScript file -->
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script> 
+</body>
+</html>
+

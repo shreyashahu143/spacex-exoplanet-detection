@@ -1,70 +1,122 @@
 // Wait for the entire HTML document to be loaded before running the script
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Get references to the HTML elements
+    // Get references to all the interactive HTML elements
     const form = document.getElementById('prediction-form');
+    const resultContainer = document.getElementById('result-container');
     const resultText = document.getElementById('result-text');
     const loader = document.getElementById('loader');
+    const validationContainer = document.getElementById('validation-container');
+    const validateButton = document.getElementById('validate-button');
 
-    // Add an event listener for the form's 'submit' event
+    // This variable will hold the crucial data passed from the first step to the second
+    let storedPredictionData = null;
+
+    // --- WORKFLOW STEP 1: Initial XGBoost Prediction ---
     form.addEventListener('submit', function(event) {
         // Prevent the default form action (which would reload the page)
         event.preventDefault();
 
-        // Show the loader and clear previous results
+        // Reset the UI for a new prediction
         loader.style.display = 'block';
-        resultText.innerText = '';
+        resultContainer.style.display = 'none';
+        validationContainer.style.display = 'none';
+        resultText.textContent = '';
+        storedPredictionData = null; // Clear previous results
 
-        // --- Step 1: Gather the data from the form ---
-        // Create a JavaScript object to hold the form data.
-        // The keys MUST match the feature names your model expects.
+        // Gather the 6 input features from the form
         const formData = {
-            "koi_period": parseFloat(document.getElementById('koi_period').value),
-            "koi_duration": parseFloat(document.getElementById('koi_duration').value),
-            "koi_depth": parseFloat(document.getElementById('koi_depth').value),
-            "koi_prad": parseFloat(document.getElementById('koi_prad').value),
-            "koi_teq": parseFloat(document.getElementById('koi_teq').value),
-            "koi_srad": parseFloat(document.getElementById('koi_srad').value),
-            "koi_impact": parseFloat(document.getElementById('koi_impact').value),
-            "koi_steff": parseFloat(document.getElementById('koi_steff').value)
-            
-            // IMPORTANT: In a real app, you would add ALL other features
-            // your model was trained on here, setting them to a default (e.g., 0)
-            // or getting them from the user.
+            'koi_period': parseFloat(document.getElementById('koi_period').value),
+            'koi_depth': parseFloat(document.getElementById('koi_depth').value),
+            'koi_duration': parseFloat(document.getElementById('koi_duration').value),
+            'koi_srad': parseFloat(document.getElementById('koi_srad').value),
+            'koi_impact': parseFloat(document.getElementById('koi_impact').value),
+            'koi_steff': parseFloat(document.getElementById('koi_steff').value)
         };
-        // ADD THIS LINE TO CHECK YOUR WORK
-        console.log('Data being sent to backend:', formData);
-        // --- Step 2: Send data to the Flask API ---
-        // Use the Fetch API to make a POST request.
-        fetch('https://spacex-exoplanet-detection.onrender.com/predict', {
+        
+        // --- FETCH REQUEST 1: Get Initial Prediction ---
+        fetch('/initial_predict', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json' // Tell the server we're sending JSON
-            },
-            // Convert the JavaScript object to a JSON string for the request body
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData) 
         })
-        .then(response => response.json()) // Parse the JSON response from the server
-        .then(data => {
-            // --- Step 3: Display the result ---
-            loader.style.display = 'none'; // Hide the loader
-            
-            // Update the result text with the prediction from the server
-            resultText.innerText = data.prediction;
-            
-            // Change text color based on prediction
-            if (data.prediction === 'Planet') {
-                resultText.style.color = '#27ae60'; // Green
-            } else {
-                resultText.style.color = '#c0392b'; // Red
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw new Error(err.error || 'Initial prediction failed.'); });
             }
+            return response.json();
+        })
+        .then(data => {
+            // --- On Success ---
+            // 1. Store the response data for the next step
+            storedPredictionData = data; // Contains xgb_probability and processed_data
+
+            // 2. Display the initial XGBoost result to the user
+            const xgbProbability = (data.xgb_probability * 100).toFixed(1);
+            resultText.innerHTML = `<strong>Initial Finding (XGBoost Model):</strong><br> There is a 
+                <span class="highlight">${xgbProbability}%</span> probability this is a viable candidate.`;
+            
+            // 3. Show the result container and the "Validate" button
+            resultContainer.style.display = 'block';
+            validationContainer.style.display = 'block';
         })
         .catch(error => {
-            // --- Step 4: Handle any errors ---
-            loader.style.display = 'none'; // Hide the loader
-            console.error('Error:', error);
-            resultText.innerText = 'Error: Could not connect to the server.';
-            resultText.style.color = '#c0392b';
+            resultContainer.style.display = 'block';
+            resultText.textContent = `Error: ${error.message}`;
+            console.error('Initial predict error:', error);
+        })
+        .finally(() => {
+            loader.style.display = 'none'; // Always hide the loader
+        });
+    });
+
+    // --- WORKFLOW STEP 2: Full Validation and Redirect ---
+    validateButton.addEventListener('click', function() {
+        if (!storedPredictionData) {
+            alert("An error occurred. Please run an initial prediction first.");
+            return;
+        }
+
+        // Update UI to show the validation process has started
+        loader.style.display = 'block';
+        validateButton.disabled = true;
+        validateButton.innerText = "Running Full Analysis...";
+
+        // --- FETCH REQUEST 2: Get Final Validation ---
+        // Prepare the payload using the data we stored from the first request
+        const validationPayload = {
+            scaled_features: storedPredictionData.processed_data.scaled,
+            imputed_features: storedPredictionData.processed_data.imputed,
+            xgb_probability: storedPredictionData.xgb_probability
+        };
+
+        fetch('/validate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(validationPayload)
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw new Error(err.error || 'Validation request failed.'); });
+            }
+            return response.json();
+        })
+        .then(finalResults => {
+            // --- On Success ---
+            // 1. Store the complete results object in the browser's sessionStorage.
+            // This makes the data available to the dashboard page.
+            sessionStorage.setItem('analysisResults', JSON.stringify(finalResults));
+            
+            // 2. Redirect the user to the new dashboard page to view the results.
+            window.location.href = '/dashboard';
+        })
+        .catch(error => {
+            resultText.textContent = `Error: ${error.message}`;
+            console.error('Validation process error:', error);
+            loader.style.display = 'none';
+            validateButton.disabled = false;
+            validateButton.innerText = "Validate with CNN & Ensemble";
         });
     });
 });
+

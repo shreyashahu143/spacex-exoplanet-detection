@@ -1,100 +1,234 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500&display=swap');
 
+/* --- Base Setup --- */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    color: #ecf0f1;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
+    background-color: #000;
 }
 
-.container {
-    background-color: #ffffff;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+/* Background Video */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    text-align: center;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    filter: brightness(0.4) contrast(1.2);
 }
 
+/* --- Stars Overlay --- */
+body::before {
+    content: '';
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    top: 0;
+    left: 0;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+    opacity: 0.15;
+    animation: moveStars 100s linear infinite;
+    z-index: -1;
+}
+
+@keyframes moveStars {
+    from { transform: translate(0, 0); }
+    to { transform: translate(-50%, -50%); }
+}
+
+/* --- Main Container --- */
+.container {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 500px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(12px);
+    border-radius: 16px;
+    box-shadow: 0 0 35px rgba(0, 255, 255, 0.25);
+    padding: 40px 50px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeIn 1.5s ease-out, floatEffect 6s ease-in-out infinite;
+}
+
+/* --- Title and Intro --- */
 h1 {
-    color: #2c3e50;
-    margin-bottom: 10px;
+    font-family: 'Orbitron', sans-serif;
+    color: #00ffff;
+    font-size: 2.3rem;
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px #00ffff, 0 0 40px #00cccc;
 }
 
 p {
-    color: #7f8c8d;
-    margin-bottom: 30px;
+    color: #dcdde1;
+    margin-bottom: 25px;
+    font-size: 1rem;
+}
+
+/* --- Form Styling (Vertical Inputs) --- */
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 25px;
 }
 
 .form-group {
-    margin-bottom: 20px;
     text-align: left;
 }
 
 .form-group label {
-    display: block;
+    font-weight: 600;
+    color: #a5b1c2;
     margin-bottom: 8px;
-    font-weight: 700;
-    color: #34495e;
+    display: block;
 }
 
 .form-group input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #bdc3c7;
-    border-radius: 5px;
-    box-sizing: border-box; /* Important for padding */
-    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
 }
 
-button {
-    background-color: #3498db;
-    color: #ffffff;
+.form-group input:focus {
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px #00ffff;
+}
+
+/* --- Radio Group --- */
+fieldset.form-group {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.08);
+    text-align: left;
+    margin-top: 15px;
+}
+
+legend {
+    font-weight: bold;
+    color: #00ffff;
+    text-shadow: 0 0 10px #00ffff;
+}
+
+fieldset div {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+fieldset label {
+    color: #dcdde1;
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    accent-color: #00ffff;
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+/* --- Buttons --- */
+button#predict-button,
+#validate-button {
+    background: linear-gradient(90deg, #00ffff, #0077ff);
+    color: white;
     border: none;
     padding: 15px 20px;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: 700;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
     width: 100%;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
 }
 
-button:hover {
-    background-color: #2980b9;
+button#predict-button:hover,
+#validate-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 35px rgba(0, 255, 255, 0.6);
 }
 
+/* Validation container */
+#validation-container {
+    margin-top: 25px;
+}
+
+/* --- Result Section --- */
 #result-container {
     margin-top: 30px;
     padding: 20px;
-    border: 1px dashed #bdc3c7;
-    border-radius: 5px;
-    min-height: 50px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    animation: fadeIn 1s ease-in;
 }
 
 #result-text {
-    font-size: 22px;
-    font-weight: 700;
-    color: #2c3e50;
+    font-size: 1.2rem;
+    color: #ffffff;
 }
 
-/* Loader Spinner Styles */
+#result-text .highlight {
+    color: #00ffff;
+    font-weight: bold;
+    font-size: 1.4rem;
+    text-shadow: 0 0 12px #00ffff;
+}
+
+/* --- Loader --- */
 .loader {
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-top: 5px solid #00ffff;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
     animation: spin 1s linear infinite;
-    margin: 0 auto;
+    margin: 30px auto 0;
 }
 
+/* --- Animations --- */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes floatEffect {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .container {
+        padding: 25px;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
 }

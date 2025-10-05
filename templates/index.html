@@ -3,59 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exoplanet Predictor</title>
+    <title>Exoplanet Intelligence Hub</title>
+    <!-- Link to the correct stylesheet for your project -->
     <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
 </head>
 <body>
-
+<video autoplay muted loop id="bg-video">
+    <source src="/static/img/13642518_3840_2160_50fps.mp4" type="video/mp4">
+  </video>
     <div class="container">
-        <h1>Exoplanet Candidate Predictor 🪐</h1>
-        <p>Enter the physical parameters of a Kepler Object of Interest (KOI) to predict its status.</p>
+        <h1>Exoplanet Intelligence Hub 🚀</h1>
+        <p>Enter 6 observational features to run the stacked ensemble prediction model.</p>
 
         <form id="prediction-form">
-            <div class="form-group">
-                <label for="koi_period">Orbital Period (days)</label>
-                <input type="number" step="any" id="koi_period" placeholder="Enter Orbital Period">
+            <!-- Grid layout for the main input features -->
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="koi_period">Orbital Period (days)</label>
+                    <input type="number" step="any" id="koi_period" placeholder="e.g., 129.94" required>
+                </div>
+                <div class="form-group">
+                    <label for="koi_depth">Transit Depth (ppm)</label>
+                    <input type="number" step="any" id="koi_depth" placeholder="e.g., 95.6" required>
+                </div>
+                <div class="form-group">
+                    <label for="koi_duration">Transit Duration (hours)</label>
+                    <input type="number" step="any" id="koi_duration" placeholder="e.g., 5.84" required>
+                </div>
+                <div class="form-group">
+                    <label for="koi_srad">Stellar Radius (Solar radii)</label>
+                    <input type="number" step="any" id="koi_srad" placeholder="e.g., 0.52" required>
+                </div>
+                <div class="form-group">
+                    <label for="koi_impact">Impact Parameter</label>
+                    <input type="number" step="any" id="koi_impact" placeholder="e.g., 0.73" required>
+                </div>
+                <div class="form-group">
+                    <label for="koi_steff">Stellar Temperature (K)</label>
+                    <input type="number" step="any" id="koi_steff" placeholder="e.g., 3754" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="koi_duration">Transit Duration (hours)</label>
-                <input type="number" step="any" id="koi_duration" placeholder="Enter Transit Duration">
-            </div>
-            <div class="form-group">
-                <label for="koi_depth">Transit Depth (ppm)</label>
-                <input type="number" step="any" id="koi_depth" placeholder="Enter Transit Depth">
-            </div>
-            <div class="form-group">
-                <label for="koi_prad">Planetary Radius (Earth radii)</label>
-                <input type="number" step="any" id="koi_prad" placeholder="Enter Planetary Radius">
-            </div>
-             <div class="form-group">
-                <label for="koi_teq">Equilibrium Temperature (K)</label>
-                <input type="number" step="any" id="koi_teq" placeholder="Enter Equilibrium Temperature">
-            </div>
-            <div class="form-group">
-                <label for="koi_srad">Stellar Radius (Solar radii)</label>
-                <input type="number" step="any" id="koi_srad" placeholder="Enter Stellar Radius">
-            </div>
-            <div class="form-group">
-                <label for="koi_impact">impact</label>
-                <input type="number" step="any" id="koi_impact" placeholder="Enter impact">
-            </div>
-            <div class="form-group">
-                <label for="koi_steff">Stellar Temperature</label>
-                <input type="number" step="any" id="koi_steff" placeholder="Enter Stellar Temperature">
-            </div>
-            <a href="{{ url_for('predict') }}">
-            <button type="submit" id="predict-button">Predict Status</button></a>
+
+            <!-- Analysis Mode radio buttons from the first snippet -->
+            <fieldset class="form-group">
+                <legend>Analysis Mode</legend>
+                <div>
+                  <input type="radio" id="high_confidence_mode" name="analysis_mode" value="high_confidence" checked>
+                  <label for="high_confidence_mode">High Confidence Mode (Threshold: 70%)</label>
+                </div>
+                <div>
+                  <input type="radio" id="discovery_mode" name="analysis_mode" value="discovery">
+                  <label for="discovery_mode">Discovery Mode (Threshold: 40%)</label>
+                </div>
+            </fieldset>
+
+            <button type="submit" id="predict-button">Run Initial Analysis</button>
         </form>
 
-        <div id="result-container">
-            <h2>Prediction Result:</h2>
-            <div class="loader" id="loader" style="display: none;"></div>
-            <p id="result-text"></p>
+        <!-- Container for the initial XGBoost result -->
+        <div id="result-container" class="result-box" style="display: none;">
+             <p id="result-text"></p>
         </div>
+
+        <!-- Container for the "Validate" button, which is shown after the initial prediction -->
+        <div id="validation-container" style="display: none;">
+            <button id="validate-button">Validate with CNN & Ensemble</button>
+        </div>
+        
+        <!-- The loader, which is shown during API calls -->
+        <div class="loader" id="loader" style="display: none;"></div>
     </div>
 
+    <!-- Link to the correct JavaScript file for your project -->
     <script src="{{ url_for('static', filename='index.js') }}"></script>
 </body>
 </html>
+

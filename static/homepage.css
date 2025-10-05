@@ -1,67 +1,193 @@
-/* Header with animated color change */
-header h1 {
-  font-size: 6rem;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
-  text-align: center;
-  border: rgb(224, 215, 215);
-  animation: colorChange 6s infinite alternate;
-  transition: color 0.5s ease;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* Keyframes for multiple colors */
+body {
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  background: #000;
+  overflow-x: hidden;
+}
 
+/* Floating stars background */
+#stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: black;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0, 0, 20, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 35px;
+  height: 35px;
+}
+
+.logo span {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.nav-links a {
+  color: #fff;
+  margin: 0 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #00f6ff;
+}
+
+.login-btn {
+  background: #00f6ff;
+  color: #000;
+  padding: 6px 15px;
+  border-radius: 20px;
+}
+
+.login-btn:hover {
+  background: #fff;
+}
 
 /* Hero Section */
 .hero {
+  height: 100vh;
+  background-image: url('/static/img/hero.avif');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-  padding: 40px;
-}
-
-/* Container with text + image */
-.container {
+  justify-content: center;
   text-align: center;
-  max-width: 800px;
-  background:rgba(248, 242, 242, 0.1);
-  padding: 40px;
-  border-radius: 20px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-  animation: fadeIn 1.5s ease;
 }
 
-/* Hero image styling */
-.hero-img {
-  max-width: 300px;
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px;
+.hero .overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2rem;
   border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  animation: float 4s ease-in-out infinite;
 }
 
-/* Floating animation for hero image */
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  text-shadow: 0 0 20px #00f6ff;
+}
 
-
-/* Start Button styling */
-.start-btn {
-  padding: 12px 35px;
-  background: linear-gradient(90deg, #00c6ff, #0072ff, #ff512f, #dd2476);
-  background-size: 300% 300%;
-  color: white;
+.hero p {
+  max-width: 700px;
+  margin: 1rem auto;
   font-size: 1.1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  animation: buttonGradient 6s ease infinite, pulse 2s infinite;
+  opacity: 0.9;
 }
 
-.start-btn:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+.btn {
+  display: inline-block;
+  background: #00f6ff;
+  color: #000;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background: #fff;
+  transform: scale(1.05);
+}
+
+/* Introduction Section */
+.intro {
+  padding: 5rem 2rem;
+  background: radial-gradient(circle, #010022, #000);
+  text-align: center;
+}
+
+.intro h2 {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 1rem;
+  font-size: 2.5rem;
+}
+
+.intro p {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.detect-btn {
+  background: #00f6ff;
+  color: #000;
+  font-size: 1.1rem;
+}
+
+/* Explore Section */
+.explore {
+  padding: 5rem 2rem;
+  background: linear-gradient(180deg, #000 0%, #02031c 100%);
+  text-align: center;
+}
+
+.explore h2 {
+  font-family: 'Orbitron', sans-serif;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.gallery img {
+  width: 300px;
+  border-radius: 15px;
+  transition: transform 0.6s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+  padding: 2rem;
+  background: #02031c;
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }

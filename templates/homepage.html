@@ -1,44 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EXOPLANET DETECTION MODEL</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
-    
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ExoWorlds — Explore the Infinite</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='homepage.css') }}">
 </head>
 <body>
-    <style>
-        body {
-            background-image: url("/static/img/pexels-frank-cone-140140-3607542.jpg");
-            background-position: center;
-            
-            margin: 0;
-            padding: 0;
-            font-size: 1.5rem;
-            color: rgb(243, 242, 242);
-        }
-    </style>
-    <header>
-        <h1 style=" font-size: 2rem;  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; font-size:5rem;">EXOPLANET DETECTION</h1>
-   
-    </header>
+  <!-- Canvas background -->
+  <canvas id="stars"></canvas>
 
-    <main>
-        <section id="welcm" class="hero">
-            <div class="container">
-                <h2> Welcome to the exoplanet detection model</h2>
-                <p>
-                   Our model is an XGBoost classifier built to distinguish between confirmed exoplanets and false positives. It uses SMOTE to balance the dataset and Randomized Search to fine-tune the model's parameters, ensuring it learns to make accurate predictions on both classes of data.
-                </p>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+    
+      <span>Exopalnet-Detection</span>
+    </div>
+    <div class="nav-links">
+      <a href="#intro">About</a>
+      <a href="#explore">Explore</a>
+     
+    </div>
+  </nav>
 
-                <button style="background-color: rgb(111, 168, 223); color: black; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; text-decoration: none; text-align: center; display: inline-block; margin-top: 10px; font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; "><a href="{{ url_for('index') }}"> Let's Detect </a></button>
-            
-        </section>
+  <!-- Hero Section with scrollable space background -->
+  <section class="hero">
+    <div class="overlay">
+      <h1>🌌 Journey Beyond the Stars</h1>
+      <p>Explore the mysterious worlds orbiting distant suns. Witness the wonders of galaxies far beyond imagination.</p>
+    </div>
+  </section>
 
-    </main>
+  <!-- Introduction Section -->
+  <section id="intro" class="intro">
+    <h2>Every flicker of light holds a cosmic secret</h2>
+    <p style="font-weight: 300; width: auto; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-weight: 2rem; font-size: 1.2rem; text-align: center;">
+      Beyond the stars lie unknown worlds, waiting to be discovered.
+Each value you enter helps our system uncover hidden planets in the vast universe.
+Let your curiosity guide the search — every small detail could reveal a new world.
+Together, let’s turn data into discovery and explore the cosmos beyond imagination.
+<br>
+<h3 style="font-size: 2rem; ">"The universe is not silent — it only waits for those who listen through data.”</h3>
+</p>
+    <a href="{{ url_for('index') }}" class="btn detect-btn">🔭 Exoplanet Detection</a>
+  </section>
 
+  <!-- Explore Section -->
+  <section id="explore" class="explore">
+    <h2>Discover the Cosmos</h2>
+    <div class="gallery">
+      <img src="/static/img/gal.jpg" alt="Galaxy">
+      <img src="/static/img/neb.avif" alt="Nebula">
+      <img src="/static/img/nebula.avif" alt="Cluster">
+    </div>
+  </section>
 
+  <!-- Footer -->
+  <footer>
+    <p>✨ Designed by AI | Powered by Curiosity ✨</p>
+  </footer>
 
+  <script src="{{ url_for('static', filename='homepage.js') }}"></script>
 </body>
 </html>
